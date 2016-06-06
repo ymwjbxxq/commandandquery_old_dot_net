@@ -211,7 +211,6 @@ public class MyController : ApiController
 	[HttpPost]
 	public async Task<IHttpActionResult> GetSomething(YourModel model)
 	{
-		//fire ad forget
 		var result = await _myQuery.Init(model.Id).Execute();
 		return Ok(result);
 	}
