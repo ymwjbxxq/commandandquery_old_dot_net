@@ -67,6 +67,11 @@ public class TasksInstaller : IWindsorInstaller
 			Component.For(typeof(ICommandProcessor))
 				.ImplementedBy(typeof(CommandProcessor))
 				.Named("CommandProcessor"));
+				
+		container.Register(
+			Classes.FromThisAssembly()
+				.BasedOn(typeof(ICommandValidatorFor<>))
+				.WithServiceAllInterfaces());
 	}
 }
 ```
