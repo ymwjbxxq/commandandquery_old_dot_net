@@ -46,8 +46,11 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ICommandHandler.cs" />
     <Compile Include="Commands\ICommandProcessor.cs" />
+    <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="Commands\IServiceLocator.cs" />
     <Compile Include="Commands\ServiceLocator.cs" />
+    <Compile Include="Commands\Validators\ICommandValidatorFor.cs" />
+    <Compile Include="Commands\Validators\ValidationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Exceptions\QueryHandlerNotFoundException.cs" />
     <Compile Include="Queries\IQueryHandler.cs" />

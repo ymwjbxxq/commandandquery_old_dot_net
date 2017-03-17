@@ -1,6 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using CommandAndQuery.Commands.Exceptions;
+using CommandAndQuery.Commands.Validators;
 
 namespace CommandAndQuery.Commands
 {
@@ -26,14 +29,35 @@ namespace CommandAndQuery.Commands
             await handler.Handle(command);
         }
 
-        public async Task<TResult> Process<TCommand, TResult>(TCommand command) where TCommand : ICommand
+        public async Task<TResult> Process<TCommand, TResult>(TCommand command) 
+            where TCommand : ICommand 
+            where TResult : CommandResult, new()
         {
-            Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
-
             var handler = _serviceLocator.Resolve<ICommandHandler<TCommand, TResult>>();
-            if (handler == null)
+            if(handler == null)
             {
                 throw new CommandHandlerNotFoundException(typeof(TCommand), typeof(TResult));
+            }
+
+            var validators = _serviceLocator.ResolveAll<ICommandValidatorFor<TCommand>>().ToList();
+            if (validators.Any())
+            {
+                var errors = new List<string>();
+                foreach(var validator in validators)
+                {
+                    errors.AddRange(validator.Validate(command).Errors);
+                }
+
+                if(errors.Any())
+                {
+                    return new TResult
+                    {
+                        ValidationResult = new ValidationResponse
+                        {
+                            Errors = errors
+                        }
+                    };
+                }
             }
 
             return await handler.Handle(command);
