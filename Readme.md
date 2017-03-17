@@ -101,6 +101,11 @@ public class MyCommandHandler : ICommandHandler<MyCommand>
 Or create your command handler with an output parameter:
 
 ```
+public class YourDTO : CommandResult
+{
+
+}
+
 public class MyCommandHandler : ICommandHandler<MyCommand, YourDTO>
 {
 	public async Task<YourDTO> Handle(MyCommand command)
@@ -109,6 +114,30 @@ public class MyCommandHandler : ICommandHandler<MyCommand, YourDTO>
 		...			
 
 		return new YourDTO();
+	}
+}
+```
+
+You could apply validators to your request to have some kind of business logic
+
+
+```
+public class MyValidator : ICommandValidatorFor<MyCommand>
+{
+	public ValidationResponse Validate(MyCommand command)
+	{
+		if (command.MyProperty == "1")
+		{
+			return new ValidationResponse
+			{
+				Errors = new[] {"Error"}
+			};
+		}
+
+		return new ValidationResponse
+		{
+			Errors = new string[] {}
+		};
 	}
 }
 ```
