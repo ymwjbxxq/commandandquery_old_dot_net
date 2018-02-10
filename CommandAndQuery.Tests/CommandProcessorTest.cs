@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommandAndQuery.Commands;
 using CommandAndQuery.Commands.Validators;
+using CommandAndQuery.Tests.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -11,18 +12,6 @@ namespace CommandAndQuery.Tests
     [TestClass]
     public class CommandProcessorTest
     {
-        public class MyCommandRequest : ICommand
-        {
-            public int Id { get; set; }
-
-            public string Name { get; set; }
-        }
-
-        public class MyCommandResult : CommandResult
-        {
-        }
-
-
         private ICommandProcessor _classUndertest;
         private Mock<IServiceLocator> _serviceLocator;
         private Mock<ICommandHandler<MyCommandRequest, MyCommandResult>> _commandHandler;
@@ -89,14 +78,20 @@ namespace CommandAndQuery.Tests
                 .Setup(x => x.Validate(command))
                 .Returns(new ValidationResponse
                 {
-                    Errors = new[] { "error1" }
+                    Errors = new List<Error>
+                    {
+                        new Error("code1", "error1")
+                    }
                 });
 
             _commandValidator2
                .Setup(x => x.Validate(command))
                .Returns(new ValidationResponse
                {
-                   Errors = new[] { "error2" }
+                   Errors = new List<Error>
+                   {
+                       new Error("code2", "error2")
+                   }
                });
 
             _commandHandler
@@ -108,6 +103,8 @@ namespace CommandAndQuery.Tests
 
             // Assert
             Assert.AreEqual(2, result.ValidationResult.Errors.Count());
+            Assert.IsTrue(result.ValidationResult.Errors.All(x => !string.IsNullOrEmpty(x.Code)));
+            Assert.IsTrue(result.ValidationResult.Errors.All(x => !string.IsNullOrEmpty(x.Message)));
         }
 
         [TestMethod]
@@ -133,15 +130,15 @@ namespace CommandAndQuery.Tests
                 .Setup(x => x.Validate(command))
                 .Returns(new ValidationResponse
                 {
-                    Errors = new[] { "error1" }
+                    Errors = new List<Error>
+                    {
+                        new Error("error1")
+                    }
                 });
 
             _commandValidator2
                .Setup(x => x.Validate(command))
-               .Returns(new ValidationResponse
-               {
-                   Errors = new string[] { }
-               });
+               .Returns(new ValidationResponse());
 
             _commandHandler
                 .Setup(x => x.Handle(command))
@@ -152,6 +149,8 @@ namespace CommandAndQuery.Tests
 
             // Assert
             Assert.AreEqual(1, result.ValidationResult.Errors.Count());
+            Assert.AreEqual(string.Empty, result.ValidationResult.Errors.First().Code);
+            Assert.AreEqual("error1", result.ValidationResult.Errors.First().Message);
         }
 
         [TestMethod]

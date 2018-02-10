@@ -50,6 +50,7 @@
     <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="Commands\IServiceLocator.cs" />
     <Compile Include="Commands\ServiceLocator.cs" />
+    <Compile Include="Commands\Validators\Error.cs" />
     <Compile Include="Commands\Validators\ICommandValidatorFor.cs" />
     <Compile Include="Commands\Validators\ValidationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

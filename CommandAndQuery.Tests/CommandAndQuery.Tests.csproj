@@ -67,6 +67,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CommandProcessorTest.cs" />
+    <Compile Include="Fakes\MyCommandRequest.cs" />
+    <Compile Include="Fakes\MyCommandResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

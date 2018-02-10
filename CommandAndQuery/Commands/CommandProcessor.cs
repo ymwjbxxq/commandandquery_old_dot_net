@@ -42,7 +42,7 @@ namespace CommandAndQuery.Commands
             var validators = _serviceLocator.ResolveAll<ICommandValidatorFor<TCommand>>().ToList();
             if (validators.Any())
             {
-                var errors = new List<string>();
+                var errors = new List<Error>();
                 foreach(var validator in validators)
                 {
                     errors.AddRange(validator.Validate(command).Errors);
