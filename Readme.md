@@ -154,9 +154,9 @@ public class MyController : ApiController
 {
 	private readonly ICommandProcessor _commandProcessor;
 
-	public MyController(ICommandProcessor commandProcessor2)
+	public MyController(ICommandProcessor commandProcessor)
 	{
-		_commandProcessor = commandProcessor2;
+		_commandProcessor = commandProcessor;
 	}
 
 	[HttpPost]
@@ -242,10 +242,10 @@ public class MyController : ApiController
 		_myQuery = myQuery;
 	}
 
-	[HttpPost]
-	public async Task<IHttpActionResult> GetSomething(YourModel model)
+	[HttpGet]
+	public async Task<IHttpActionResult> GetSomething(int id)
 	{
-		var result = await _myQuery.Init(model.Id).Execute();
+		var result = await _myQuery.Init(id).Execute();
 		return Ok(result);
 	}
 }
