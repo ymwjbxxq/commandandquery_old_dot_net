@@ -8,7 +8,7 @@ CommandAndQuery applies the CQS principle by using separate Query and Command ob
 
 ### Basic Usage
 
-First install the [NuGet package](https://www.nuget.org/packages/CommandAndQuery/):
+First, install the [NuGet package](https://www.nuget.org/packages/CommandAndQuery/):
 
 ```Install-Package CommandAndQuery```
 
@@ -42,7 +42,7 @@ public class WindsorServiceLocator : IServiceLocator
 }
 ```
 
-Then setup your dependecy injection to register the appropriate interfaces. For example with Castle.Windsor:
+Then set up your dependency injection to register the appropriate interfaces. For example with Castle.Windsor:
 
 ```
 public class TasksInstaller : IWindsorInstaller
@@ -178,7 +178,7 @@ public class MyController : ApiController
 
 ### Basic Usage
 
-First install the [NuGet package](https://www.nuget.org/packages/CommandAndQuery/):
+First, install the [NuGet package](https://www.nuget.org/packages/CommandAndQuery/):
 
 ```Install-Package CommandAndQuery```
 
@@ -188,7 +188,7 @@ Add the appropriate namespace:
 using CommandAndQuery;
 ```
 
-Then setup your dependecy injection to register the appropriate interfaces. For example with Castle.Windsor:
+Then set up your dependency injection to register the appropriate interfaces. For example with Castle.Windsor:
 
 ```
 public class QueryInstaller : IWindsorInstaller
